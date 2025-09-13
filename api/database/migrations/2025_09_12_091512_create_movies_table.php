@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 50);
+            $table->string('title', 50)->unique();
             $table->string('description', 255);
             $table->date('date_added')->useCurrent();
             $table->string('video_file');

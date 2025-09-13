@@ -1,23 +1,18 @@
 <script setup>
-import { ref } from "vue";
+import useAuth from "@/composables/useAuth";
+const { handleLogin, email, password, rememberMe, isErrorLogin } = useAuth();
 
-const email = ref("test@yahoo.com");
-const password = ref("");
-const rememberMe = ref(false);
-
-const handleSignIn = () => {
-  console.log("Signing in with:", {
-    email: email.value,
-    password: password.value,
-    rememberMe: rememberMe.value,
-  });
-};
+const closeErrorMsg = () => (isErrorLogin.value = null);
 </script>
 
 <template>
   <div class="netflix-login-form p-5 rounded">
     <h1 class="text-white mb-4">Sign In</h1>
-    <form @submit.prevent="handleSignIn">
+    <div v-if="isErrorLogin" class="alert alert-warning alert-dismissible" role="alert">
+      {{ isErrorLogin }}
+      <button type="button" class="btn-close" @click="closeErrorMsg"></button>
+    </div>
+    <form @submit.prevent="handleLogin">
       <div class="form-floating mb-3">
         <input
           type="email"
@@ -27,7 +22,7 @@ const handleSignIn = () => {
           v-model="email"
           required
         />
-        <label for="email">Email or mobile number</label>
+        <label for="email">Email address</label>
       </div>
       <div class="form-floating mb-3">
         <input

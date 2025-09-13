@@ -1,5 +1,11 @@
-@use './base' as *;
+@import './base';
 
 body {
   background-color: #141414;
+}
+
+.alert-warning {
+  --bs-alert-color: #000;
+  --bs-alert-bg:  rgb(216, 157, 49);
+  --bs-alert-border-color: rgb(216, 157, 49);
 }

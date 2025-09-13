@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Movie extends Model
 {
     const CREATED_AT = 'date_added';
+    protected $fillable = [
+        'title',
+        'description',
+        'video_file',
+    ];
 }

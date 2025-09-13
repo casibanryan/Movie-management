@@ -17,6 +17,7 @@
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/vite": "^4.1.13",
     "@vueuse/core": "^13.9.0",
+    "axios": "^1.12.1",
     "bootstrap": "^5.3.8",
     "lodash": "^4.17.21",
     "n": "^10.2.0",
