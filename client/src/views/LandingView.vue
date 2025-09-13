@@ -1,58 +1,18 @@
-<script setup>
-import NetfixIcon from "@/components/icons/NetfixIcon.vue";
-</script>
-
 <template>
-  <main class="container">
-    <nav class="navbar navbar-expand-sm">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <netfix-icon class="text-danger" />
-        </a>
-
-        <section>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown link
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </section>
+  <section>
+    <h1 class="display-4 fw-bold mb-3">Unlimited movies, TV shows, and more.</h1>
+    <p class="lead mb-4">Watch anywhere. Cancel anytime.</p>
+    <form class="d-flex justify-content-center gap-2 gap-md-3 w-100 flex-wrap">
+      <div class="form-floating flex-fill">
+        <input
+          type="email"
+          class="form-control bg-transparent text-white"
+          id="emailInput"
+          placeholder="name@example.com"
+        />
+        <label for="emailInput text-white">Email address</label>
       </div>
-    </nav>
-  </main>
+      <button class="btn btn-danger" type="submit">Get Started</button>
+    </form>
+  </section>
 </template>

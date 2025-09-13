@@ -1,1 +1,5 @@
-@import './base.scss';
+@use './base' as *;
+
+body {
+  background-color: #141414;
+}

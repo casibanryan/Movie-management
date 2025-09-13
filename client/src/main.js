@@ -1,4 +1,4 @@
-import './assets/main.scss'
+import '@/assets/main.scss'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import { createApp } from 'vue'

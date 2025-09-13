@@ -1,0 +1,11 @@
+
+
+$danger: #E50914;
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+.form-floating > label {
+  color: #B4B7AD !important; 
+}
+
+@import 'bootstrap/scss/bootstrap';
