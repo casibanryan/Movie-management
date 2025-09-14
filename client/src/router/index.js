@@ -6,6 +6,7 @@ import LandingView from '@/views/LandingView.vue'
 import LoginView from '@/views/LoginView.vue'
 import HomeView from '@/views/HomeView.vue'
 import ActionView from '@/views/ActionView.vue'
+import PlayView from '@/views/PlayView.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -46,6 +47,15 @@ const router = createRouter({
         }
       ]
     },
+
+    {
+      path: '/play/:id',
+      component: PlayView ,
+      name: 'play',
+      meta: {
+        auth: true
+      },
+    }
   ],
 })
 

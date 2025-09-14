@@ -3,11 +3,52 @@
 $danger: #E50914;
 $bs-body-bg: inherit;
 
+$modal-inner-padding:               1.5rem;
+
+$modal-footer-margin-between:       1rem;
+
+$modal-dialog-margin:               1rem;
+$modal-dialog-margin-y-sm-up:       2rem;
+
+$modal-title-line-height:           1.4;
+
+$modal-content-color:               #e5e5e5; 
+$modal-content-bg:                  #141414; 
+$modal-content-border-color:        #333;   
+$modal-content-border-width:        0;      
+$modal-content-border-radius:       0.25rem;
+$modal-content-inner-border-radius: 0.25rem;
+$modal-content-box-shadow-xs:       0 2px 10px rgba(0, 0, 0, 0.8);
+$modal-content-box-shadow-sm-up:    0 4px 20px rgba(0, 0, 0, 0.9);
+
+$modal-backdrop-bg:                 #000;
+$modal-backdrop-opacity:            0.85; 
+
+$modal-header-border-color:         #333;
+$modal-header-border-width:         0;   
+$modal-header-padding-y:            1rem;
+$modal-header-padding-x:            1.5rem;
+$modal-header-padding:              $modal-header-padding-y $modal-header-padding-x;
+
+$modal-footer-bg:                   #141414; 
+$modal-footer-border-color:         #333;
+$modal-footer-border-width:         0;
+
+$modal-sm:                          300px;
+$modal-md:                          600px;
+$modal-lg:                          900px;
+$modal-xl:                          1280px; 
+
+$modal-fade-transform:              translate(0, -30px);
+$modal-show-transform:              none;
+$modal-transition:                  transform .3s ease-out, opacity .3s ease-out;
+$modal-scale-transform:             scale(1.02);
+
+
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 .form-floating > label {
   color: #B4B7AD !important; 
 }
-
 
 @import 'bootstrap/scss/bootstrap';

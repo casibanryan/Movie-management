@@ -37,7 +37,6 @@ class ProcessVideo implements ShouldQueue
 
         $video->exportForHLS()
             ->toDisk('public')
-            ->addFormat(new \FFMpeg\Format\Video\X264)
             ->save("hls/{$this->videoId}/playlist.m3u8");
     }
 }

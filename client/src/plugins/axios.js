@@ -41,7 +41,6 @@ api.interceptors.response.use(
             field.classList.add('is-invalid');
           }
         });
-
       });
     }
 

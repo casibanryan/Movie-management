@@ -48,12 +48,19 @@ export const useMovieStore = defineStore('movieStore', () => {
     return data
   }
 
+  async function getMovies () {
+    const { data } = await api.get(`/v1/movies`)
+    movies.value = data
+    return data
+  }
+
   return { 
     movie,
     movies,
     store,
     softDelete,
     get,
-    update
+    update,
+    getMovies
    }
 })

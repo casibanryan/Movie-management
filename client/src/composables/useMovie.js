@@ -109,6 +109,22 @@ export default () => {
     isUploading.value = false;
   }
 
+   async function notifyUploadFirst () {
+     const isConfirmed = await showModal({
+      title: "No movies found",
+      body: "You haven't uploaded any movies yet. Please upload one to continue.",
+      primaryText: "Upload Now",
+      primaryClass: "btn-danger",
+    });
+
+    if (isConfirmed) {
+      router.push({
+        name: 'action'
+      })
+    }
+  }
+
+
   return {
     handleUpload,
     uploadProgress,
@@ -116,6 +132,7 @@ export default () => {
     isSuccess,
     file,
     handleDelete,
-    removeFile
+    removeFile,
+    notifyUploadFirst
   }
 }
