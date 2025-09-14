@@ -26,6 +26,7 @@ provide("showModal", showModal);
         </div>
         <div class="modal-footer">
           <button
+            v-if="modalConfig.secondaryBtn"
             type="button"
             :class="['btn', modalConfig.secondaryClass]"
             @click="handleCancel"

@@ -35,8 +35,8 @@ class ProcessVideo implements ShouldQueue
             ->toDisk('public')
             ->save("thumbnails/{$this->videoId}.jpg");
 
-        $video->exportForHLS()
-            ->toDisk('public')
-            ->save("hls/{$this->videoId}/playlist.m3u8");
+        // $video->exportForHLS()
+        //     ->toDisk('public')
+        //     ->save("hls/{$this->videoId}/playlist.m3u8");
     }
 }

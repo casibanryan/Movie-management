@@ -13,6 +13,7 @@ export default function useModal() {
     size: "", 
     primaryClass: "btn-primary",
     secondaryClass: "btn-secondary",
+    secondaryBtn: true,
   });
 
   let resolvePromise;
