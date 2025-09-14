@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from "vue";
+import { defineProps } from 'vue'
 
 defineProps({
   movies: {
@@ -8,9 +8,9 @@ defineProps({
   },
   title: {
     type: String,
-    default: "Movies",
+    default: 'Movies',
   },
-});
+})
 </script>
 
 <template>
@@ -33,10 +33,7 @@ defineProps({
               v-for="movie in movies.slice(index * 4, index * 4 + 4)"
               :key="movie.id"
             >
-              <div
-                class="card bg-dark text-white border-0"
-                @click="$.emit('onCLick', movie)"
-              >
+              <div class="card bg-dark text-white border-0" @click="$.emit('onCLick', movie)">
                 <img :src="movie.image" class="card-img" alt="thumbnail" />
                 <div class="card-img-overlay d-flex flex-column justify-content-end">
                   <h6 class="card-title">{{ movie.title }}</h6>

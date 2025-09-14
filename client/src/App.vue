@@ -1,9 +1,9 @@
 <script setup>
-import { provide } from "vue";
-import useModal from "@/composables/useModal";
+import { provide } from 'vue'
+import useModal from '@/composables/useModal'
 
-const { modalRef, modalConfig, showModal, handleConfirm, handleCancel } = useModal();
-provide("showModal", showModal);
+const { modalRef, modalConfig, showModal, handleConfirm, handleCancel } = useModal()
+provide('showModal', showModal)
 </script>
 
 <template>
@@ -14,12 +14,7 @@ provide("showModal", showModal);
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ modalConfig.title }}</h5>
-          <button
-            type="button"
-            class="btn-close"
-            @click="handleCancel"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" @click="handleCancel" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p v-html="modalConfig.body"></p>
@@ -33,11 +28,7 @@ provide("showModal", showModal);
           >
             {{ modalConfig.secondaryText }}
           </button>
-          <button
-            type="button"
-            :class="['btn', modalConfig.primaryClass]"
-            @click="handleConfirm"
-          >
+          <button type="button" :class="['btn', modalConfig.primaryClass]" @click="handleConfirm">
             {{ modalConfig.primaryText }}
           </button>
         </div>

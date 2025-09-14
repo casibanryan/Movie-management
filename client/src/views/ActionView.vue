@@ -1,86 +1,79 @@
 <script setup>
-import { ref, onUnmounted, watch } from "vue";
-import useMovie from "@/composables/useMovie";
-import { useRoute } from "vue-router";
-import { useMovieStore } from "@/stores/movie";
-import _isEmpty from "lodash/isEmpty";
-import _get from "lodash/get";
-import _ from "lodash";
+import { ref, onUnmounted, watch } from 'vue'
+import useMovie from '@/composables/useMovie'
+import { useRoute } from 'vue-router'
+import { useMovieStore } from '@/stores/movie'
+import _isEmpty from 'lodash/isEmpty'
+import _get from 'lodash/get'
+import _ from 'lodash'
 
-const route = useRoute();
-const isDragging = ref(false);
-const fileInput = ref(null);
+const route = useRoute()
+const isDragging = ref(false)
+const fileInput = ref(null)
 
-const movieStore = useMovieStore();
+const movieStore = useMovieStore()
 
-const {
-  handleUpload,
-  isUploading,
-  uploadProgress,
-  isSuccess,
-  file,
-  handleDelete,
-  removeFile,
-} = useMovie();
+const { handleUpload, isUploading, uploadProgress, isSuccess, file, handleDelete, removeFile } =
+  useMovie()
 
 function openFileDialog(isOpen = false) {
   if (!file.value || isOpen) {
-    fileInput.value.click();
+    fileInput.value.click()
   }
 }
 
 function handleFile(event) {
-  let selectedFile;
+  let selectedFile
   if (event.dataTransfer) {
-    selectedFile = event.dataTransfer.files[0];
+    selectedFile = event.dataTransfer.files[0]
   } else if (event.target) {
-    selectedFile = event.target.files[0];
+    selectedFile = event.target.files[0]
   }
 
   if (selectedFile) {
-    const parts = selectedFile.name.split(".");
-    const ext = parts.pop();
-    const title = parts.join(".");
+    const parts = selectedFile.name.split('.')
+    const ext = parts.pop()
+    const title = parts.join('.')
 
     file.value = {
       ...file.value,
       preview: URL.createObjectURL(selectedFile),
       ext,
       size: selectedFile.size,
-      title: _get(movieStore.movie, "title", title),
-      description: _.get(movieStore.movie, "description", ""),
+      title: _get(movieStore.movie, 'title', title),
+      description: _.get(movieStore.movie, 'description', ''),
       video_file: selectedFile,
-    };
+    }
 
-    event.target.value = null;
+    event.target.value = null
   }
 
-  isDragging.value = false;
+  isDragging.value = false
 }
 
 onUnmounted(() => {
-  removeFile();
-});
+  removeFile()
+})
 
 watch(
   () => route.params?.id,
   async (val) => {
     if (!val) {
-      return false;
+      return false
     }
 
-    const data = await movieStore.get(val);
+    const data = await movieStore.get(val)
     file.value = {
       preview: import.meta.env.VITE_STATIC_ASSET_PATH + data.video_file,
       ...data,
-    };
+    }
 
-    file.value.video_file = null;
+    file.value.video_file = null
   },
   {
     immediate: true,
-  }
-);
+  },
+)
 </script>
 
 <template>
@@ -110,12 +103,7 @@ watch(
         <p v-if="!file">Drag or drop a movie here</p>
 
         <div v-else class="file-item">
-          <video
-            v-if="file.preview"
-            :src="file.preview"
-            class="file-thumb"
-            controls
-          ></video>
+          <video v-if="file.preview" :src="file.preview" class="file-thumb" controls></video>
 
           <div class="file-info">
             <div class="form-floating mb-3">
@@ -168,12 +156,7 @@ watch(
               Remove
             </button>
 
-            <button
-              v-else
-              type="button"
-              class="btn btn-secondary"
-              @click.stop="handleDelete"
-            >
+            <button v-else type="button" class="btn btn-secondary" @click.stop="handleDelete">
               Delete
             </button>
 
@@ -187,9 +170,7 @@ watch(
               Upload
             </button>
 
-            <button type="submit" class="btn btn-danger" :disabled="isUploading">
-              Save
-            </button>
+            <button type="submit" class="btn btn-danger" :disabled="isUploading">Save</button>
           </section>
         </div>
       </div>
@@ -204,7 +185,9 @@ watch(
   padding: 1.5rem;
   text-align: center;
   cursor: pointer;
-  transition: border-color 0.3s, background-color 0.3s;
+  transition:
+    border-color 0.3s,
+    background-color 0.3s;
 
   .dropzone-content p {
     margin: 0 0 0.5rem 0;

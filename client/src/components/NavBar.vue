@@ -1,28 +1,28 @@
 <script setup>
-import NetfixIcon from "@/components/icons/NetfixIcon.vue";
-import { useRouter, useRoute } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import Avatar1 from "@/assets/images/avatar-1.jpg";
-import useAuth from "@/composables/useAuth";
-const { handleLogout } = useAuth();
+import NetfixIcon from '@/components/icons/NetfixIcon.vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import Avatar1 from '@/assets/images/avatar-1.jpg'
+import useAuth from '@/composables/useAuth'
+const { handleLogout } = useAuth()
 
-const router = useRouter();
-const route = useRoute();
-const authStore = useAuthStore();
+const router = useRouter()
+const route = useRoute()
+const authStore = useAuthStore()
 
-const goToLogin = () => router.push({ name: "login" });
-const goToCreate = () => router.push({ name: "action" });
+const goToLogin = () => router.push({ name: 'login' })
+const goToCreate = () => router.push({ name: 'action' })
 
 function handleHome() {
   if (authStore.isLogin()) {
     return router.push({
-      name: "home",
-    });
+      name: 'home',
+    })
   }
 
   return router.push({
-    name: "landingPage",
-  });
+    name: 'landingPage',
+  })
 }
 </script>
 
@@ -33,11 +33,7 @@ function handleHome() {
     </a>
 
     <div class="ms-auto actions">
-      <button
-        v-if="!authStore.isLogin()"
-        @click="goToLogin"
-        class="btn btn-danger btn-sm"
-      >
+      <button v-if="!authStore.isLogin()" @click="goToLogin" class="btn btn-danger btn-sm">
         Sign in
       </button>
 
@@ -45,24 +41,14 @@ function handleHome() {
         <button v-if="!route.params.id" class="btn btn-danger btn-sm" @click="goToCreate">
           Create
         </button>
-        <div class="dropdown position-relative">
-          <a
-            href="javascript:void(0)"
-            class="btn btn-transparent dropdown-toggle avatar"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <img :src="Avatar1" alt="avatar" height="20" width="20" />
-          </a>
-
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li>
-              <a class="dropdown-item" href="javascript:void(0)" @click="handleLogout">
-                logout
-              </a>
-            </li>
-          </ul>
-        </div>
+        <a
+          href="javascript:void(0)"
+          class="btn btn-transparent avatar"
+          @click="handleLogout"
+          title="logout"
+        >
+          <img :src="Avatar1" alt="avatar" height="20" width="20" />
+        </a>
       </div>
     </div>
   </nav>
@@ -71,7 +57,10 @@ function handleHome() {
 <style lang="scss" scoped>
 nav {
   overflow: visible;
+  position: relative;
+
   .actions {
+    position: relative;
     .avatar {
       padding: 0px;
       margin: 0px;

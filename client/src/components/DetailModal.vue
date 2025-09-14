@@ -1,10 +1,10 @@
 <script setup>
-import SettingIcon from "@/components/icons/SettingIcon.vue";
-import { computed } from "vue";
-import { useMovieStore } from "@/stores/movie";
+import SettingIcon from '@/components/icons/SettingIcon.vue'
+import { computed } from 'vue'
+import { useMovieStore } from '@/stores/movie'
 
-const movieStore = useMovieStore();
-const movie = computed(() => movieStore.movie);
+const movieStore = useMovieStore()
+const movie = computed(() => movieStore.movie)
 </script>
 
 <template>
@@ -26,9 +26,7 @@ const movie = computed(() => movieStore.movie);
           <div class="modal-hero-content">
             <h1 class="movie-title">{{ movie.title }}</h1>
             <div class="actions">
-              <button class="btn btn-danger me-2" @click="$.emit('play', movie.id)">
-                Play
-              </button>
+              <button class="btn btn-danger me-2" @click="$.emit('play', movie.id)">Play</button>
               <button class="btn btn-outline-light me-2">
                 <setting-icon />
               </button>
@@ -48,9 +46,7 @@ const movie = computed(() => movieStore.movie);
         </div>
 
         <div class="modal-footer border-0">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

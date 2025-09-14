@@ -19,58 +19,63 @@ const router = createRouter({
         {
           path: '',
           component: LandingView,
-          name: 'landingPage'
+          name: 'landingPage',
         },
-         {
+        {
           path: '/sign-in',
           component: LoginView,
-          name: 'login'
-        }
-      ]
+          name: 'login',
+        },
+      ],
     },
-     {
+    {
       path: '/home',
       component: HomeLayout,
       meta: {
-        auth: true
+        auth: true,
       },
       children: [
         {
           path: '',
           component: HomeView,
-          name: 'home'
+          name: 'home',
         },
         {
           path: 'action/:id?',
           component: ActionView,
-          name: 'action'
-        }
-      ]
+          name: 'action',
+        },
+      ],
     },
 
     {
       path: '/play/:id',
-      component: PlayView ,
+      component: PlayView,
       name: 'play',
       meta: {
-        auth: true
+        auth: true,
       },
-    }
+    },
   ],
 })
 
 router.beforeEach(async (to, from, next) => {
-  const token = localStorage.getItem('token') 
+  const token = localStorage.getItem('token')
 
   if (to.meta?.auth && !token) {
     return next({ name: 'login' })
-  } 
+  }
 
   if (to.meta?.auth && token) {
-    const authStore = useAuthStore()
-    await authStore.get()
+    try {
+      const authStore = useAuthStore()
+      await authStore.get()
+    } catch (e) {
+      console.log('ee', e.message)
+      return next({ name: 'login' })
+    }
   }
-  
+
   next()
 })
 

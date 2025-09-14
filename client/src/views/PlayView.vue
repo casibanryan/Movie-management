@@ -1,35 +1,35 @@
 <script setup>
-import { watch, computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useMovieStore } from "@/stores/movie";
-import BackIcon from "@/components/icons/BackIcon.vue";
+import { watch, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useMovieStore } from '@/stores/movie'
+import BackIcon from '@/components/icons/BackIcon.vue'
 
-const route = useRoute();
-const router = useRouter();
-const movieStore = useMovieStore();
+const route = useRoute()
+const router = useRouter()
+const movieStore = useMovieStore()
 
 watch(
   () => route.params?.id,
   async (val) => {
     if (!val) {
-      return false;
+      return false
     }
 
-    await movieStore.get(val);
+    await movieStore.get(val)
   },
   {
     immediate: true,
-  }
-);
+  },
+)
 
-const backHome = () => router.push({ name: "home" });
+const backHome = () => router.push({ name: 'home' })
 const movie = computed(() => {
-  const data = movieStore.movie;
+  const data = movieStore.movie
   return {
     ...data,
     video_file: import.meta.env.VITE_STATIC_ASSET_PATH + data.video_file,
-  };
-});
+  }
+})
 </script>
 
 <template>

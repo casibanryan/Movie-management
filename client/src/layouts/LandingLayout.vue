@@ -1,5 +1,5 @@
 <script setup>
-import NavBar from "@/components/NavBar.vue";
+import NavBar from '@/components/NavBar.vue'
 </script>
 
 <template>
@@ -16,16 +16,16 @@ import NavBar from "@/components/NavBar.vue";
   </main>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .hero {
   position: relative;
   height: 100vh;
-  background-image: url("@/assets/images/hero_bg.jpg");
+  background-image: url('@/assets/images/hero_bg.jpg');
   background-size: cover;
   background-position: center;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);

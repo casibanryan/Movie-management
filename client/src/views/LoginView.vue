@@ -1,8 +1,8 @@
 <script setup>
-import useAuth from "@/composables/useAuth";
-const { handleLogin, email, password, rememberMe, isErrorLogin } = useAuth();
+import useAuth from '@/composables/useAuth'
+const { handleLogin, email, password, rememberMe, isErrorLogin } = useAuth()
 
-const closeErrorMsg = () => (isErrorLogin.value = null);
+const closeErrorMsg = () => (isErrorLogin.value = null)
 </script>
 
 <template>
@@ -40,21 +40,9 @@ const closeErrorMsg = () => (isErrorLogin.value = null);
 
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="rememberMe"
-            v-model="rememberMe"
-          />
-          <label class="form-check-label text-white-50" for="rememberMe">
-            Remember me
-          </label>
+          <input class="form-check-input" type="checkbox" id="rememberMe" v-model="rememberMe" />
+          <label class="form-check-label text-white-50" for="rememberMe"> Remember me </label>
         </div>
-      </div>
-
-      <div class="text-white-50 mb-3 mt-4">
-        New to Netflix?
-        <a href="#" class="text-white text-decoration-none fw-bold">Sign up now.</a>
       </div>
     </form>
   </div>
