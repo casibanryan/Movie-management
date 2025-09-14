@@ -14,4 +14,8 @@ class Movie extends Model
         'description',
         'video_file',
     ];
+
+    protected $casts = [
+        'date_added' => 'date:Y-m-d',
+    ];
 }

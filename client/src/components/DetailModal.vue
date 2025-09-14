@@ -2,9 +2,20 @@
 import SettingIcon from '@/components/icons/SettingIcon.vue'
 import { computed } from 'vue'
 import { useMovieStore } from '@/stores/movie'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const movieStore = useMovieStore()
 const movie = computed(() => movieStore.movie)
+
+function handleSetting (item) {
+  router.push({
+    name: 'action',
+    params: {
+      id: item.id
+    }
+  })
+}
 </script>
 
 <template>
@@ -26,8 +37,8 @@ const movie = computed(() => movieStore.movie)
           <div class="modal-hero-content">
             <h1 class="movie-title">{{ movie.title }}</h1>
             <div class="actions">
-              <button class="btn btn-danger me-2" @click="$.emit('play', movie.id)">Play</button>
-              <button class="btn btn-outline-light me-2">
+              <button class="btn btn-danger me-2" @click="$emit('play', movie.id)">Play</button>
+              <button class="btn btn-outline-light me-2" @click.stop="handleSetting(movie)">
                 <setting-icon />
               </button>
             </div>

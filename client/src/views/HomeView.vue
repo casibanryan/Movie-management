@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, onUnmounted, ref } from 'vue'
 import PlayIcon from '@/components/icons/PlayIcon.vue'
 import InfoIcon from '@/components/icons/InfoIcon.vue'
 import MovieSlider from '@/components/MovieSlider.vue'
@@ -13,12 +13,19 @@ import useMovie from '@/composables/useMovie'
 const router = useRouter()
 const movieStore = useMovieStore()
 const { notifyUploadFirst } = useMovie()
+const nModal = ref(null)
 
 onMounted(async () => {
   await movieStore.getMovies()
 
   if (!movieStore.movies || _.isEmpty(movieStore.movies.data)) {
     notifyUploadFirst()
+  }
+})
+
+onUnmounted(() => {
+  if (nModal.value) {
+    nModal.value.hide()
   }
 })
 
@@ -31,16 +38,18 @@ const topMovie = computed(() => {
 
   return {
     ...temp,
-    image: import.meta.env.VITE_STATIC_ASSET_PATH + `thumbnails/${temp.id}.jpg`,
+    image: import.meta.env.VITE_STATIC_ASSET_PATH + `thumbnails/${_.kebabCase(temp.title)}.jpg`,
   }
 })
 
 const movies = computed(() => {
-  const list = _.get(movieStore.movies, 'data', [])
+  const temp = _.get(movieStore.movies, 'data', [])
+  const list = _.tail(temp); // remove the first 
+
   return _.map(list, (item) => {
     return {
       ...item,
-      image: import.meta.env.VITE_STATIC_ASSET_PATH + `thumbnails/${item.id}.jpg`,
+      image: import.meta.env.VITE_STATIC_ASSET_PATH + `thumbnails/${_.kebabCase(item.title)}.jpg`,
     }
   })
 })
@@ -56,9 +65,10 @@ function goToPlay(id) {
 
 function viewInfo(data) {
   movieStore.movie = data
-  const netflixModal = new Modal(document.getElementById('netflixModal'))
-  netflixModal.show()
+  nModal.value = new Modal(document.getElementById('netflixModal'))
+  nModal.value.show()
 }
+
 </script>
 
 <template>
@@ -94,11 +104,11 @@ function viewInfo(data) {
     </div>
 
     <section v-if="!_.isEmpty(movies)" class="container-fluid">
-      <movie-slider :movies="movies" />
+      <movie-slider :movies="movies" @on-click="viewInfo" />
     </section>
   </div>
 
-  <detail-modal @play="goToPlay" />
+  <detail-modal @play="goToPlay"  />
 </template>
 
 <style scoped lang="scss">

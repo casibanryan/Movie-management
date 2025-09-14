@@ -48,7 +48,7 @@ class MovieController extends Controller
             'video_file' => $videoPath,
         ]);
 
-        ProcessVideo::dispatch($videoPath, $movie->id);
+        ProcessVideo::dispatch($videoPath, Str::slug($request->input('title')));
 
         return response()->json([
             'movie' => $movie,
@@ -98,7 +98,7 @@ class MovieController extends Controller
 
             $movie->video_file = $videoPath;
 
-            ProcessVideo::dispatch($videoPath, $movie->id);
+            ProcessVideo::dispatch($videoPath, Str::slug($request->input('title')));
         }
 
         $movie->save();

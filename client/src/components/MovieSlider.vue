@@ -11,6 +11,8 @@ defineProps({
     default: 'Movies',
   },
 })
+
+
 </script>
 
 <template>
@@ -33,12 +35,12 @@ defineProps({
               v-for="movie in movies.slice(index * 4, index * 4 + 4)"
               :key="movie.id"
             >
-              <div class="card bg-dark text-white border-0" @click="$.emit('onCLick', movie)">
+              <a href="javascript:void(0)" class="card bg-dark text-white border-0" @click.stop="$emit('onClick', movie)">
                 <img :src="movie.image" class="card-img" alt="thumbnail" />
                 <div class="card-img-overlay d-flex flex-column justify-content-end">
                   <h6 class="card-title">{{ movie.title }}</h6>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -64,22 +66,38 @@ defineProps({
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .card {
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
+
+  .card:hover {
+    transform: scale(1.05);
+  }
+  .card-img-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  }
+
+  .card-img {
+    height: 100px;
+    width: 100%;
+  }
+
+  
 }
-.card:hover {
-  transform: scale(1.05);
-}
-.card-img-overlay {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+.carousel-control-prev {
+  left: -100px;
+  &:hover {
+    z-index: 10;
+  }
 }
 
-.card-img {
-  height: 100px;
-  width: 100%;
+.carousel-control-next {
+  right: -100px;
+  &:hover {
+    z-index: 10;
+  }
 }
 </style>

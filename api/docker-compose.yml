@@ -69,7 +69,6 @@ services:
         container_name: laravel_queue_worker
         volumes:
             - '.:/var/www/html'
-        user: sail
         entrypoint: []
         command: php artisan queue:work --sleep=3 --tries=3
         depends_on:

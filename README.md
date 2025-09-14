@@ -66,3 +66,13 @@ password: password
 
 1. file permission issue in logs during building (docker)
 2. bug on HLS generation, current php and package is not compatible
+
+# if counter please run this commands on docker
+
+mkdir -p /var/www/html/storage/logs
+chmod -R 777 /var/www/html/storage
+
+## # optional (run)
+
+touch /var/www/html/storage/logs/laravel.log
+chmod 666 /var/www/html/storage/logs/laravel.log

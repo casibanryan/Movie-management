@@ -44,10 +44,24 @@ $modal-transition:
   opacity 0.3s ease-out;
 $modal-scale-transform: scale(1.02);
 
+
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 .form-floating > label {
   color: #b4b7ad !important;
+}
+
+.form-floating {
+  > textarea {
+    &:focus,
+    &:not(:placeholder-shown) {
+      ~ label {
+        &::after {
+          background-color: unset !important;
+        }
+      }
+    }
+  }
 }
 
 @import 'bootstrap/scss/bootstrap';

@@ -59,6 +59,8 @@ watch(
   () => route.params?.id,
   async (val) => {
     if (!val) {
+      movieStore.movie = {}
+      file.value = null
       return false
     }
 

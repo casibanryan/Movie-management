@@ -15,14 +15,12 @@ class ProcessVideo implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $videoPath;
-    protected $videoId;
+    protected $videoTitle;
 
-
-
-    public function __construct(string $videoPath, int $videoId)
+    public function __construct(string $videoPath, string $videoTitle)
     {
         $this->videoPath = $videoPath;
-        $this->videoId = $videoId;
+        $this->videoTitle = $videoTitle;
     }
 
     public function handle(): void
@@ -33,10 +31,10 @@ class ProcessVideo implements ShouldQueue
         $video->getFrameFromSeconds(5)
             ->export()
             ->toDisk('public')
-            ->save("thumbnails/{$this->videoId}.jpg");
+            ->save("thumbnails/{$this->videoTitle}.jpg");
 
         // $video->exportForHLS()
         //     ->toDisk('public')
-        //     ->save("hls/{$this->videoId}/playlist.m3u8");
+        //     ->save("hls/{$this->videoTitle}/playlist.m3u8");
     }
 }
