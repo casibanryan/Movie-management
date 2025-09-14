@@ -67,7 +67,7 @@ password: password
 1. file permission issue in logs during building (docker)
 2. bug on HLS generation, current php and package is not compatible
 
-# if counter please run this commands on docker
+# if encounter please run this commands on docker
 
 mkdir -p /var/www/html/storage/logs
 chmod -R 777 /var/www/html/storage
@@ -76,3 +76,7 @@ chmod -R 777 /var/www/html/storage
 
 touch /var/www/html/storage/logs/laravel.log
 chmod 666 /var/www/html/storage/logs/laravel.log
+
+# video link
+
+https://drive.google.com/file/d/1VLTYz5hccRnMtgR3fKwVP_f2PrqediLa/view?usp=sharing

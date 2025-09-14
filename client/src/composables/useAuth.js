@@ -1,15 +1,18 @@
 import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import _ from 'lodash'
 
 export default () => {
+   const router = useRouter()
+   const route = useRoute()
+
   const authStore = useAuthStore()
-  const email = ref(localStorage.getItem('email') || '')
+  const email = ref(_.get(route.query, 'email', localStorage.getItem('email') || ''))
   const password = ref('')
   const rememberMe = ref(false)
   const isErrorLogin = ref(null)
-  const router = useRouter()
+ 
 
   async function handleLogin() {
     try {
