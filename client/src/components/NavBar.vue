@@ -1,12 +1,13 @@
 <script setup>
 import NetfixIcon from "@/components/icons/NetfixIcon.vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import Avatar1 from "@/assets/images/avatar-1.jpg";
 import useAuth from "@/composables/useAuth";
 const { handleLogout } = useAuth();
 
 const router = useRouter();
+const route = useRoute();
 const authStore = useAuthStore();
 
 const goToLogin = () => router.push({ name: "login" });
@@ -41,7 +42,9 @@ function handleHome() {
       </button>
 
       <div v-else class="d-flex gap-2">
-        <button class="btn btn-danger btn-sm" @click="goToCreate">Create</button>
+        <button v-if="!route.params.id" class="btn btn-danger btn-sm" @click="goToCreate">
+          Create
+        </button>
         <div class="dropdown position-relative">
           <a
             href="javascript:void(0)"

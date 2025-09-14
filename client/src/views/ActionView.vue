@@ -1,11 +1,17 @@
 <script setup>
-import { ref, onUnmounted } from "vue";
+import { ref, onUnmounted, watch } from "vue";
 import useMovie from "@/composables/useMovie";
 import { useRoute } from "vue-router";
+import { useMovieStore } from "@/stores/movie";
+import _isEmpty from "lodash/isEmpty";
+import _get from "lodash/get";
+import _ from "lodash";
 
 const route = useRoute();
 const isDragging = ref(false);
 const fileInput = ref(null);
+
+const movieStore = useMovieStore();
 
 const {
   handleUpload,
@@ -17,8 +23,8 @@ const {
   removeFile,
 } = useMovie();
 
-function openFileDialog() {
-  if (!file.value) {
+function openFileDialog(isOpen = false) {
+  if (!file.value || isOpen) {
     fileInput.value.click();
   }
 }
@@ -37,11 +43,12 @@ function handleFile(event) {
     const title = parts.join(".");
 
     file.value = {
+      ...file.value,
       preview: URL.createObjectURL(selectedFile),
-      description: "",
-      size: selectedFile.size,
-      title,
       ext,
+      size: selectedFile.size,
+      title: _get(movieStore.movie, "title", title),
+      description: _.get(movieStore.movie, "description", ""),
       video_file: selectedFile,
     };
 
@@ -54,6 +61,26 @@ function handleFile(event) {
 onUnmounted(() => {
   removeFile();
 });
+
+watch(
+  () => route.params?.id,
+  async (val) => {
+    if (!val) {
+      return false;
+    }
+
+    const data = await movieStore.get(val);
+    file.value = {
+      preview: import.meta.env.VITE_STATIC_ASSET_PATH + data.video_file,
+      ...data,
+    };
+
+    file.value.video_file = null;
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>
@@ -115,9 +142,10 @@ onUnmounted(() => {
               ></textarea>
               <label for="fileDesc" class="bg-transparent">Description</label>
             </div>
-            <p class="file-size">Size: {{ (file.size / 1024 / 1024).toFixed(2) }} MB</p>
+            <p class="file-size" v-if="file.size">
+              Size: {{ (file.size / 1024 / 1024).toFixed(2) }} MB
+            </p>
 
-            <!-- Progress bar -->
             <div v-if="uploadProgress" class="progress mt-2">
               <div
                 class="progress-bar"
@@ -130,21 +158,37 @@ onUnmounted(() => {
             </div>
           </div>
 
-          <section v-if="!route.params.id" class="d-flex flex-column gap-3 mt-3">
-            <button type="button" class="btn btn-secondary" @click.stop="removeFile">
+          <section class="d-flex flex-column gap-3 mt-3">
+            <button
+              v-if="!route.params.id"
+              type="button"
+              class="btn btn-secondary"
+              @click.stop="removeFile"
+            >
               Remove
             </button>
-            <button type="submit" class="btn btn-danger" :disabled="isUploading">
+
+            <button
+              v-else
+              type="button"
+              class="btn btn-secondary"
+              @click.stop="handleDelete"
+            >
+              Delete
+            </button>
+
+            <button
+              v-if="route.params.id && !_isEmpty(movieStore.movie)"
+              type="button"
+              class="btn btn-primary"
+              :disabled="isUploading"
+              @click="openFileDialog(true)"
+            >
               Upload
             </button>
-          </section>
 
-          <section v-else class="d-flex flex-column gap-3 mt-3">
-            <button type="button" class="btn btn-secondary" @click.stop="handleDelete">
-              delete
-            </button>
             <button type="submit" class="btn btn-danger" :disabled="isUploading">
-              Update
+              Save
             </button>
           </section>
         </div>

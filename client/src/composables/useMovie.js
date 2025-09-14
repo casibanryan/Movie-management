@@ -19,12 +19,11 @@ export default () => {
   const showModal = inject("showModal");
 
   async function handleUpload (event) {
-     const form = event.target
+    const form = event.target
     if (!form.checkValidity()) {
       form.classList.add('was-validated')
       return
     }
-
 
 
     isUploading.value = true;
@@ -33,13 +32,24 @@ export default () => {
     try {
       const formData = new FormData()
 
-      formData.append('video_file', file.value.video_file)
+      if (file.value.video_file) {
+        formData.append('video_file', file.value.video_file)
+      }
       formData.append('title', file.value.title)
       formData.append('description', file.value.description)
 
-      const result = await movieStore.store(formData, progressEvent => {
+      let result;
+
+      if (route.params.id) {
+        formData.append('_method', 'PUT')
+         result = await movieStore.update(route.params.id, formData, progressEvent => {
           uploadProgress.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-      })
+        })
+      } else {
+         result = await movieStore.store(formData, progressEvent => {
+          uploadProgress.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        })
+      }
 
       toast.success(result.message);
       isSuccess.value = true

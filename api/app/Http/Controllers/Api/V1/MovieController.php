@@ -6,7 +6,10 @@ use App\Models\Movie;
 use App\Jobs\ProcessVideo;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+
 
 class MovieController extends Controller
 {
@@ -30,7 +33,7 @@ class MovieController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:50|unique:movies,title',
-            'description' => 'string|max:255',
+            'description' => 'required|string|max:255',
             'video_file' => 'required|file|mimetypes:video/mp4,video/webm,video/quicktime|max:100000',
         ]);
 
@@ -65,10 +68,47 @@ class MovieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+    public function update(Request $request, Movie $movie)
     {
-        //
+        info($request->input('title'));
+        $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('movies')->ignore($movie->id),
+            ],
+            'description' => 'required|string|max:255',
+            'video_file' => 'nullable|file|mimetypes:video/mp4,video/webm,video/quicktime|max:100000',
+        ]);
+
+        $movie->title = $request->input('title');
+        $movie->description = $request->input('description');
+
+        if ($request->hasFile('video_file')) {
+            if ($movie->video_file && Storage::disk('public')->exists($movie->video_file)) {
+                Storage::disk('public')->delete($movie->video_file);
+            }
+
+            $file = $request->file('video_file');
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $fileName = Str::slug($originalName) . '-' . time() . '.' . $file->extension();
+            $videoPath = $file->storeAs('movies', $fileName, 'public');
+
+            $movie->video_file = $videoPath;
+
+            ProcessVideo::dispatch($videoPath, $movie->id);
+        }
+
+        $movie->save();
+
+        return response()->json([
+            'movie' => $movie,
+            'message' => 'Movie updated successfully'
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
