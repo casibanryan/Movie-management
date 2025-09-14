@@ -10,6 +10,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 const goToLogin = () => router.push({ name: "login" });
+const goToCreate = () => router.push({ name: "action" });
 
 function handleHome() {
   if (authStore.isLogin()) {
@@ -40,7 +41,7 @@ function handleHome() {
       </button>
 
       <div v-else class="d-flex gap-2">
-        <button class="btn btn-danger btn-sm">Create</button>
+        <button class="btn btn-danger btn-sm" @click="goToCreate">Create</button>
         <div class="dropdown position-relative">
           <a
             href="javascript:void(0)"

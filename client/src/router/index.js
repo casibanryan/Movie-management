@@ -5,6 +5,7 @@ import HomeLayout from '@/layouts/HomeLayout.vue'
 import LandingView from '@/views/LandingView.vue'
 import LoginView from '@/views/LoginView.vue'
 import HomeView from '@/views/HomeView.vue'
+import ActionView from '@/views/ActionView.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -38,6 +39,11 @@ const router = createRouter({
           component: HomeView,
           name: 'home'
         },
+        {
+          path: 'action/:id?',
+          component: ActionView,
+          name: 'action'
+        }
       ]
     },
   ],

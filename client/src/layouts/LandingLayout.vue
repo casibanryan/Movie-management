@@ -28,8 +28,8 @@ import NavBar from "@/components/NavBar.vue";
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6); // dark overlay
-    backdrop-filter: blur(5px); // blur only the background
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
     z-index: 1;
   }
 

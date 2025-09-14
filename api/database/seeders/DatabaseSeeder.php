@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
       [
         'title' => "It's Okay to Not Be Okay",
         'description' => 'An author with severe antisocial tendencies learns to confront her deep emotional wounds when she meets a stranger who challenges her cold facade.',
-        'video_file' => '/sample_video.mp4'
+        'video_file' => 'sample_video.mp4'
       ]
     );
   }

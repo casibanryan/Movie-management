@@ -18,31 +18,23 @@ class ProcessVideo implements ShouldQueue
     protected $videoId;
 
 
-    /**
-     * Create a new job instance.
-     */
+
     public function __construct(string $videoPath, int $videoId)
     {
         $this->videoPath = $videoPath;
         $this->videoId = $videoId;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-        // Get the video from storage
-        $disk = Storage::disk('local');
+        $disk = Storage::disk('public');
         $video = FFMpeg::fromDisk($disk)->open($this->videoPath);
 
-        // **Example: Thumbnail Generation**
         $video->getFrameFromSeconds(5)
             ->export()
             ->toDisk('public')
             ->save("thumbnails/{$this->videoId}.jpg");
 
-        // **Example: HLS Generation**
         $video->exportForHLS()
             ->toDisk('public')
             ->addFormat(new \FFMpeg\Format\Video\X264)
