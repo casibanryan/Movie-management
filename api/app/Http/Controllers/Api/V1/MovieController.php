@@ -29,7 +29,7 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:50',
+            'title' => 'required|string|max:50|unique:movies,title',
             'description' => 'string|max:255',
             'video_file' => 'required|file|mimetypes:video/mp4,video/webm,video/quicktime|max:100000',
         ]);
@@ -48,8 +48,8 @@ class MovieController extends Controller
         ProcessVideo::dispatch($videoPath, $movie->id);
 
         return response()->json([
-            'message' => 'Movie is being processed.',
             'movie' => $movie,
+            'message' => 'upload successfully'
         ], 201);
     }
 
@@ -58,7 +58,8 @@ class MovieController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $movie = Movie::find($id);
+        return response()->json($movie);
     }
 
     /**
@@ -74,6 +75,11 @@ class MovieController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $movie = Movie::find($id);
+        $movie->delete();
+
+        return response()->json([
+            'message' => 'deleted successfully'
+        ]);
     }
 }

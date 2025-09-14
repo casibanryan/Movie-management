@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('date_added')->useCurrent();
             $table->string('video_file');
             $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
         });
     }
 

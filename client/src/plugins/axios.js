@@ -25,11 +25,29 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
+    const errStatus = error.response?.status || 500;
+    if (errStatus === 401) {
       localStorage.removeItem("token");
+    } else if (errStatus === 422) {
+      const errors = error.response.data.errors || {};
+      const forms = document.querySelectorAll('.needs-validations');
+      Array.from(forms).forEach((form) => {
+        const invalidElements = form.querySelectorAll('.is-invalid');
+        invalidElements.forEach(el => el.classList.remove('is-invalid'));
+
+        Object.keys(errors).forEach((key) => {
+          const field = form.querySelector(`[name="${key}"]`);
+          if (field) {
+            field.classList.add('is-invalid');
+          }
+        });
+
+      });
     }
+
     return Promise.reject(error);
   }
 );
+
 
 export default api;

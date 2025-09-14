@@ -1,12 +1,21 @@
 <script setup>
 import { ref, onUnmounted } from "vue";
 import useMovie from "@/composables/useMovie";
+import { useRoute } from "vue-router";
 
-const file = ref(null);
+const route = useRoute();
 const isDragging = ref(false);
 const fileInput = ref(null);
 
-const { handleUpload } = useMovie();
+const {
+  handleUpload,
+  isUploading,
+  uploadProgress,
+  isSuccess,
+  file,
+  handleDelete,
+  removeFile,
+} = useMovie();
 
 function openFileDialog() {
   if (!file.value) {
@@ -42,13 +51,6 @@ function handleFile(event) {
   isDragging.value = false;
 }
 
-function removeFile() {
-  if (file.value && file.value.preview) {
-    URL.revokeObjectURL(file.value.preview);
-  }
-  file.value = null;
-}
-
 onUnmounted(() => {
   removeFile();
 });
@@ -56,12 +58,14 @@ onUnmounted(() => {
 
 <template>
   <section class="container mt-5">
-    <div
-      class="dropzone"
+    <form
+      class="dropzone needs-validations"
+      novalidate
       @dragover.prevent="isDragging = true"
       @dragleave.prevent="isDragging = false"
       @drop.prevent="handleFile"
       :class="isDragging ? 'border-danger' : ''"
+      @submit.prevent="handleUpload"
     >
       <input
         type="file"
@@ -85,6 +89,7 @@ onUnmounted(() => {
             class="file-thumb"
             controls
           ></video>
+
           <div class="file-info">
             <div class="form-floating mb-3">
               <input
@@ -92,7 +97,9 @@ onUnmounted(() => {
                 class="form-control bg-transparent text-white"
                 id="fileName"
                 placeholder="File Name"
+                name="title"
                 v-model="file.title"
+                required
               />
               <label for="fileName">Title</label>
             </div>
@@ -103,19 +110,46 @@ onUnmounted(() => {
                 placeholder="Description"
                 style="height: 100px"
                 v-model="file.description"
+                name="description"
+                required
               ></textarea>
               <label for="fileDesc" class="bg-transparent">Description</label>
             </div>
             <p class="file-size">Size: {{ (file.size / 1024 / 1024).toFixed(2) }} MB</p>
+
+            <!-- Progress bar -->
+            <div v-if="uploadProgress" class="progress mt-2">
+              <div
+                class="progress-bar"
+                :class="isSuccess ? 'bg-success' : 'bg-warning'"
+                role="progressbar"
+                :style="{ width: uploadProgress + '%' }"
+              >
+                {{ uploadProgress }}%
+              </div>
+            </div>
           </div>
 
-          <section class="d-flex flex-column gap-3">
-            <button class="btn btn-secondary" @click.stop="removeFile">Remove</button>
-            <button class="btn btn-danger" @click="handleUpload(file)">Download</button>
+          <section v-if="!route.params.id" class="d-flex flex-column gap-3 mt-3">
+            <button type="button" class="btn btn-secondary" @click.stop="removeFile">
+              Remove
+            </button>
+            <button type="submit" class="btn btn-danger" :disabled="isUploading">
+              Upload
+            </button>
+          </section>
+
+          <section v-else class="d-flex flex-column gap-3 mt-3">
+            <button type="button" class="btn btn-secondary" @click.stop="handleDelete">
+              delete
+            </button>
+            <button type="submit" class="btn btn-danger" :disabled="isUploading">
+              Update
+            </button>
           </section>
         </div>
       </div>
-    </div>
+    </form>
   </section>
 </template>
 
@@ -131,12 +165,6 @@ onUnmounted(() => {
   .dropzone-content p {
     margin: 0 0 0.5rem 0;
     color: #fff;
-  }
-
-  .file-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
   }
 
   .file-item {
@@ -161,14 +189,18 @@ onUnmounted(() => {
     text-align: left;
   }
 
-  .file-name {
-    font-weight: 600;
-    margin: 0;
-  }
+  .progress {
+    height: 20px;
+    background-color: #444;
+    border-radius: 5px;
 
-  .file-size {
-    font-size: 0.85rem;
-    margin: 0;
+    .progress-bar {
+      height: 100%;
+      text-align: center;
+      color: #fff;
+      line-height: 20px;
+      transition: width 0.3s;
+    }
   }
 }
 </style>
