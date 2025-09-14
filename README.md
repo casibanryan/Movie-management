@@ -47,6 +47,8 @@ alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 sail build --no-cache
 sail up -d
 
+sail artisan storage:link
+
 # initialize DB
 
 sail artisan migrate:fresh
