@@ -59,7 +59,7 @@ sail artisan db:seed
 
 # default user credentials
 
-email: johndoe@gmail.com
+email: john_doe@gmail.com
 password: password
 
 # Bugs Encounter
@@ -80,3 +80,4 @@ chmod 666 /var/www/html/storage/logs/laravel.log
 # video link
 
 https://drive.google.com/file/d/1VLTYz5hccRnMtgR3fKwVP_f2PrqediLa/view?usp=sharing
+
